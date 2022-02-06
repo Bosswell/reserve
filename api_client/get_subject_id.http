@@ -1,0 +1,9 @@
+GET http://{{host}}/admin/subject
+Accept: application/json
+Content-Type: application/json
+
+> {%
+    client.global.set("subjectId", response.body[0].id);
+%}
+
+###

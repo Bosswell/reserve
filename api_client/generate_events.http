@@ -1,0 +1,29 @@
+POST http://{{ host }}/admin/events/generate
+Accept: application/json
+Content-Type: application/json
+
+{
+    "subjectId": {{ subjectId }},
+    "eventGenerationFlow": "period",
+    "dateFrom": "2022-05-10",
+    "dateTo": "2022-05-17",
+    "hourFrom": "08:00:00",
+    "hourTo": "11:00:00"
+}
+
+###
+
+POST http://{{ host }}/admin/events/generate
+Accept: application/json
+Content-Type: application/json
+
+{
+    "subjectId": {{ subjectId }},
+    "eventGenerationFlow": "select",
+    "hourFrom": "08:00:00",
+    "hourTo": "11:00:00",
+    "selectedDays": [
+        "2049-01-25",
+        "2049-01-26"
+    ]
+}

@@ -20,5 +20,24 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    _instanceof:
+        App\Calendar\EventsGenerator\AbstractEventsGenerator:
+            tags: [ events.generator ]
+        App\Calendar\Normalizer\EventSlot\NormalizerInterface:
+            public: true
+            tags: [ 'event-slot.normalizer' ]
+
+    message_converter:
+        class: App\Http\Request\DtoConverter
+        tags:
+            - { name: request.param_converter, priority: -2, converter: dto_converter }
+
+    App\Calendar\EventsGenerator\EventsGeneratorCollection:
+        arguments: [ !tagged_locator { tag: 'events.generator', index_by: 'key', default_index_method: 'getType' } ]
+
+    App\Calendar\Normalizer\EventSlot\NormalizerCollection:
+        public: true
+        arguments: [ !tagged { tag: 'event-slot.normalizer' } ]
+
+    Symfony\Component\Serializer\Serializer:
+        factory: [ '@App\Factory\SerializerFactory', 'getInstance' ]
